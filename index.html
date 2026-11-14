@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>XAU/USD — Gold Risk Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XAU/USD Gold Risk Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
   <main class="container">
     <header class="masthead">
       <h1>XAU/USD</h1>
-      <H3>Golden Boy</H3>
+      <h3>Golden Boy</h3>
       <p class="masthead__sub">Position size &amp; risk, for gold only.</p>
     </header>
 
@@ -61,7 +61,7 @@
         <label for="entry-price">Entry price <span class="field__hint">(price of gold, per oz)</span></label>
         <div class="input-prefix input-prefix--action">
           <span>$</span>
-          <input id="entry-price" type="number" inputmode="decimal" min="0" step="any" placeholder="2,340.00" required />
+          <input id="entry-price" type="number" inputmode="decimal" min="0" step="any" placeholder="3,880.00" required />
           <button type="button" id="use-live-btn" class="use-live-btn">use live</button>
         </div>
       </div>
@@ -83,8 +83,16 @@
         <strong id="out-risk-amount">$0.00</strong>
       </div>
       <div class="ledger__row">
+        <span>Actual risk (rounded lots)</span>
+        <strong id="out-actual-risk">$0.00</strong>
+      </div>
+      <div class="ledger__row">
         <span>Stop-loss price</span>
         <strong id="out-sl-price">$0.00</strong>
+      </div>
+      <div class="ledger__row">
+        <span>Stop distance</span>
+        <strong id="out-sl-distance">$0.00</strong>
       </div>
       <div class="ledger__divider"></div>
       <div class="ledger__row ledger__row--main">
@@ -103,7 +111,7 @@
 
     <p class="error" id="error-msg" role="alert" hidden></p>
 
-    <p class="footnote">Standard gold lot = 100 troy oz · 1 pip = $0.01 move · pip value = $1.00 per standard lot. Educational tool, not financial advice.</p>
+    <p class="footnote">Standard gold lot = 100 troy oz · 1 pip = $0.10 move (10 points) · pip value = $10.00 per standard lot · lots rounded down to 0.01. Educational tool, not financial advice.</p>
   </main>
 
   <script src="script.js"></script>

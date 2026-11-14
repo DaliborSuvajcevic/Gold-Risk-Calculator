@@ -1,10 +1,11 @@
 // ---- Config -----------------------------------------------------------
 const API_KEY = "285f06d73df743969af771c25c170170"; // move this server-side before going live
 const SYMBOL = "XAU/USD";
-const REFRESH_INTERVAL_MS = 20000; // how often to auto-refresh the live price
+const REFRESH_INTERVAL_MS = 60000; // how often to auto-refresh the live price (kept low to protect the API daily limit)
 const CONTRACT_SIZE = 100;   // 1 standard lot of gold = 100 troy oz
-const PIP_SIZE = 0.01;       // 1 pip = $0.01 move in the gold price
-const PIP_VALUE_PER_LOT = CONTRACT_SIZE * PIP_SIZE; // = $1.00 per pip, per standard lot
+const PIP_SIZE = 0.10;       // 1 pip = $0.10 move in the gold price (= 10 points on MT5, where 1 point = $0.01)
+const PIP_VALUE_PER_LOT = CONTRACT_SIZE * PIP_SIZE; // = $10.00 per pip, per standard lot
+const LOT_STEP = 0.01;       // smallest lot increment offered by the broker
 
 let direction = "long";
 let livePrice = null;
@@ -107,13 +108,35 @@ form.addEventListener("submit", (e) => {
   }
 
   const riskAmount = accountSize * (riskPercent / 100);
-  const lotSize = riskAmount / (stopLossPips * PIP_VALUE_PER_LOT);
-  const units = lotSize * CONTRACT_SIZE;
   const priceMove = stopLossPips * PIP_SIZE;
   const slPrice = direction === "long" ? entryPrice - priceMove : entryPrice + priceMove;
 
+  if (slPrice <= 0) {
+    showError("Stop loss is larger than the entry price. Lower the stop loss.");
+    return;
+  }
+
+  // Round DOWN to the lot step so the real risk never exceeds the chosen risk.
+  const rawLots = riskAmount / (stopLossPips * PIP_VALUE_PER_LOT);
+  const lotSize = Number((Math.floor(rawLots / LOT_STEP + 1e-9) * LOT_STEP).toFixed(2));
+
+  if (lotSize < LOT_STEP) {
+    const minLotRisk = LOT_STEP * stopLossPips * PIP_VALUE_PER_LOT;
+    showError(
+      `Your risk of $${riskAmount.toFixed(2)} is too small for the minimum lot of ${LOT_STEP.toFixed(2)}. ` +
+      `With a ${stopLossPips} pip stop, ${LOT_STEP.toFixed(2)} lots would risk $${minLotRisk.toFixed(2)}. ` +
+      `Increase the balance or risk, or tighten the stop loss.`
+    );
+    return;
+  }
+
+  const units = lotSize * CONTRACT_SIZE;
+  const actualRisk = lotSize * stopLossPips * PIP_VALUE_PER_LOT;
+
   el("out-risk-amount").textContent = `$${riskAmount.toFixed(2)}`;
+  el("out-actual-risk").textContent = `$${actualRisk.toFixed(2)}`;
   el("out-sl-price").textContent = `$${slPrice.toFixed(2)}`;
+  el("out-sl-distance").textContent = `$${priceMove.toFixed(2)}`;
   el("out-lot-size").textContent = `${lotSize.toFixed(2)} lots`;
   el("out-units").textContent = `${units.toFixed(2)} oz`;
   el("out-pip-value").textContent = `$${(PIP_VALUE_PER_LOT * lotSize).toFixed(2)}`;
