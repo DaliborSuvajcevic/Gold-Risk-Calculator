@@ -1,12 +1,12 @@
 :root {
-  --bg: #14110c;
-  --surface: #1e1911;
-  --surface-raised: #241d13;
-  --line: #35291a;
-  --gold: #cfa956;
-  --gold-bright: #ecc873;
-  --ivory: #f3ecdc;
-  --ivory-dim: #a89c85;
+  --bg: #111111;
+  --surface: #181818;
+  --surface-raised: #1f1f1f;
+  --line: #2e2b25;
+  --gold: #FFB132;
+  --gold-bright: #FFB132;
+  --ivory: #F7F3EA;
+  --ivory-dim: #a39d90;
   --rust: #b34b32;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
   --sans: 'IBM Plex Sans', system-ui, sans-serif;
@@ -22,9 +22,6 @@ html, body {
 
 body {
   background: var(--bg);
-  background-image:
-    radial-gradient(circle at 15% 0%, rgba(207, 169, 86, 0.08), transparent 45%),
-    radial-gradient(circle at 100% 100%, rgba(207, 169, 86, 0.05), transparent 50%);
   color: var(--ivory);
   font-family: var(--sans);
   display: flex;
@@ -41,7 +38,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px 20px;
-  background: #0c0a06;
+  background: #0b0b0b;
   border-bottom: 1px solid var(--line);
   font-family: var(--mono);
   font-size: 13px;
@@ -118,7 +115,7 @@ body {
 
 .masthead {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 30px;
 }
 
 .masthead h1 {
@@ -126,10 +123,7 @@ body {
   font-weight: 600;
   font-size: 34px;
   margin: 0;
-  background: linear-gradient(100deg, var(--gold) 10%, var(--gold-bright) 50%, var(--gold) 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--gold);
 }
 
 .masthead__sub {
@@ -255,8 +249,8 @@ input[type="number"] { -moz-appearance: textfield; }
 
 .direction-toggle__btn.is-active {
   border-color: var(--gold);
-  color: #14110c;
-  background: linear-gradient(100deg, var(--gold), var(--gold-bright));
+  color: #111111;
+  background: var(--gold);
 }
 
 .calc-btn {
@@ -265,8 +259,8 @@ input[type="number"] { -moz-appearance: textfield; }
   padding: 14px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(100deg, var(--gold) 0%, var(--gold-bright) 100%);
-  color: #14110c;
+  background: var(--gold);
+  color: #111111;
   font-family: var(--sans);
   font-weight: 700;
   font-size: 15px;
@@ -344,4 +338,24 @@ input[type="number"] { -moz-appearance: textfield; }
 @media (max-width: 420px) {
   .container { padding: 28px 16px 0; }
   .masthead h1 { font-size: 28px; }
+}
+/* Brand logo (original crown, do not recolor or redraw) */
+.logo-mini { height: 26px; width: auto; margin-right: 4px; }
+
+.masthead h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  margin: 10px 0 0;
+}
+.masthead h3::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--gold);
+  margin: 12px auto 0;
 }
