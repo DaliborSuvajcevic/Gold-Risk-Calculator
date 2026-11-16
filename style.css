@@ -9,8 +9,8 @@
   --ivory-dim: #a39d90;
   --rust: #b34b32;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --sans: 'IBM Plex Sans', system-ui, sans-serif;
-  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
 }
 
 * { box-sizing: border-box; }
